@@ -69,18 +69,17 @@ public class ContactController implements Serializable {
     public void saveContact(Contact contact){
         System.out.print(this.selectedContact);
         System.out.print(contact);
+        contact.setId(getRandomId());
         if (selectedContact!=null){
             this.selectedContact=contact;
             this.displayConfirmation("Contact Updated for "+selectedContact.getFamilyName()+" "+selectedContact.getGivenName());
-
         } else {
-
             contactList.add(contact);
             this.displayConfirmation("New Contact Added for "+contact.getFamilyName()+" "+contact.getGivenName());
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("contact", new Contact());
             RequestContext.getCurrentInstance().reset("contactDetailForm");
-
         }
+        clearContact();
     }
 
 
@@ -93,6 +92,7 @@ public class ContactController implements Serializable {
         System.out.print(selectedContact);
         contactList.remove(selectedContact);
         this.displayConfirmation("Contact Deleted");
+        clearContact();
     }
 
     public void clearContact(){
